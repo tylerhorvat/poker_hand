@@ -407,17 +407,17 @@ public class PokerHand implements Comparable<PokerHand> {
 	    while(i >= 0) {
 	    	thisHighCard = this.getValue(i);
 	    	if(thisHighCard != thisPair){
-	    		i--;
 	    		break;
 	    	}
+		i--;
 	    }
 	    
 	    while (j >= 0) {
 	    	otherHighCard = other.getValue(j);
 	    	if(otherHighCard != otherPair){
-	    		j--;
 	    		break;
 	    	}
+		j--;
 	    }
 	    
 	    if(thisHighCard != otherHighCard)
