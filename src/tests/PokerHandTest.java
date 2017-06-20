@@ -1,9 +1,3 @@
-/* CSC 335 Summer 2017 Project 1
- * Tyler Horvat
- * 
- * This class runs several tests on class PokerHand
- */
-
 package tests;
 
 import static org.junit.Assert.*;
@@ -11,7 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import model.Card;
-import model.DuplicateCardException;
 import model.PokerHand;
 import model.Rank;
 import model.Suit;
@@ -27,41 +20,43 @@ import model.Suit;
 public class PokerHandTest {
 	
 	@Test
+	public void equalFullHouse() {
+		PokerHand a = new PokerHand(D8, C8, S8, S7, D7);
+		PokerHand b = new PokerHand(D8, C8, S8, S7, D7);
+		PokerHand c = new PokerHand(D8, C8, S8, S9, D9);
+		assertEquals(0, a.compareTo(b));
+		assertEquals(0, b.compareTo(a));
+		assertEquals(-1, a.compareTo(c));
+		assertEquals(1, c.compareTo(a));
+	}
+	
+	@Test
+	public void equalFourOfAKind() {
+		PokerHand a = new PokerHand(S4, D4, C4, H4, H5);
+		PokerHand b = new PokerHand(S4, D4, C4, H4, H5);
+		PokerHand c = new PokerHand(S4, D4, C4, H4, H6);
+		assertEquals(0, a.compareTo(b));
+		assertEquals(0, b.compareTo(a));
+		assertEquals(-1, a.compareTo(c));
+		assertEquals(1, c.compareTo(a));
+	}
+	
+	@Test
+	public void equalThreeOfAKind() {
+		PokerHand a = new PokerHand(C3, S3, D3, S2, S4);
+		PokerHand b = new PokerHand(C3, S3, D3, S2, S4);
+		PokerHand c = new PokerHand(C3, S3, D3, S2, S5);
+		assertEquals(0, a.compareTo(b));
+		assertEquals(-1, a.compareTo(c));
+		assertEquals(1, c.compareTo(a));
+	}
+	
+	@Test
 	public void straightTestAces() {
 		PokerHand a = new PokerHand(CA, S2, D3, S4, D5);
 		PokerHand b = new PokerHand(D10, SJ, DQ, CK, HA);
 		assertEquals(-1, a.compareTo(b));
 		assertEquals(1, b.compareTo(a));
-	}
-	
-	@Test(expected = DuplicateCardException.class)
-	public void duplicateException11() {
-		PokerHand a = new PokerHand(C2, C3, S5, S8, S8);
-	}
-	
-	@Test(expected = DuplicateCardException.class)
-	public void duplicateException10() {
-		PokerHand a = new PokerHand(C2, C3, S5, S8, S5);
-	}
-	
-	@Test(expected = DuplicateCardException.class)
-	public void duplicateException9() {
-		PokerHand a = new PokerHand(C2, C3, S5, S5, S10);
-	}
-	
-	@Test(expected = DuplicateCardException.class)
-	public void duplicateException8() {
-		PokerHand a = new PokerHand(C2, C3, S5, S8, C3);
-	}
-	
-	@Test(expected = DuplicateCardException.class)
-	public void duplicateException7() {
-		PokerHand a = new PokerHand(C2, C3, S5, C3, S10);
-	}
-	
-	@Test(expected = DuplicateCardException.class)
-	public void duplicateException6() {
-		PokerHand a = new PokerHand(C2, C3, C3, S8, S10);
 	}
 	
 	@Test
@@ -70,48 +65,6 @@ public class PokerHandTest {
 		PokerHand b = new PokerHand(C8, D8, S8, DK, D4);
 		assertEquals(-1, a.compareTo(b));
 		assertEquals(1, b.compareTo(a));
-	}
-	
-	@Test(expected = DuplicateCardException.class)
-	public void duplicateException5() {
-		PokerHand a = new PokerHand(C2, C3, S5, S8, C2);
-		//PokerHand b = new PokerHand(S2, S4, S7, C8, H9);
-		//assertEquals(1, a.compareTo(b));
-	}
-	
-	@Test(expected = DuplicateCardException.class)
-	public void duplicateException4() {
-		PokerHand a = new PokerHand(C2, C3, S5, C2, H10);
-		//PokerHand b = new PokerHand(S2, S4, S7, C8, H9);
-		//assertEquals(1, a.compareTo(b));
-	}
-	
-	@Test(expected = DuplicateCardException.class)
-	public void duplicateException3() {
-		PokerHand a = new PokerHand(C2, C3, C2, S8, H10);
-		//PokerHand b = new PokerHand(S2, S4, S7, C8, H9);
-		//assertEquals(1, a.compareTo(b));
-	}
-	
-	@Test(expected = DuplicateCardException.class)
-	public void duplicateException2() {
-		PokerHand a = new PokerHand(C2, C2, S5, S8, H10);
-		//PokerHand b = new PokerHand(S2, S4, S7, C8, H9);
-		//assertEquals(1, a.compareTo(b));
-	}
-	
-	@Test(expected = DuplicateCardException.class)
-	public void duplicateException() {
-		PokerHand a = new PokerHand(C2, C3, S5, S8, H10);
-		PokerHand b = new PokerHand(C2, S4, S7, C8, H9);
-		assertEquals(1, a.compareTo(b));
-	}
-	
-	@Test(expected = DuplicateCardException.class)
-	public void trickDeck() {
-		PokerHand a = new PokerHand(CA, C2, C3, C4, C5);
-		PokerHand b = new PokerHand(CA, D2, D3, D4, D5);
-		assertEquals(0, a.compareTo(b));
 	}
 	
 	@Test
@@ -130,20 +83,6 @@ public class PokerHandTest {
 	    assertEquals(
 	        "DEUCE THREE FOUR FIVE SIX SEVEN EIGHT NINE TEN JACK QUEEN KING ACE",
 	        result.trim());
-	  }
-
-	  // Do not allow duplicate cards, throw an exception
-	  @Test(expected = DuplicateCardException.class)
-	  public void tryToAddTheSameCardTwiceA() {
-	    new PokerHand(C2, C3, C4, C5, C5);
-	  }
-
-	  @Test(expected = DuplicateCardException.class)
-	  public void testPair2() {
-	    PokerHand a = new PokerHand(H3, CA, D4, H6, DA);
-	    a.toString();
-	    PokerHand b = new PokerHand(H3, C5, HA, SA, C6);
-	    assertTrue(a.compareTo(b) < 0);
 	  }
 
 	  @Test

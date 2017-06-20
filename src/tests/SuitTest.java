@@ -1,9 +1,3 @@
-/* CSC 335 Summer 2017 Project 1
- * Tyler Horvat
- * 
- * This class runs tests on enum Suit
- */
-
 package tests;
 
 /**
@@ -13,7 +7,9 @@ package tests;
  */
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
+
 import model.Suit;
 
 public class SuitTest {
@@ -27,6 +23,7 @@ public class SuitTest {
     assertTrue(Suit.SPADES instanceof Suit);
   }
 
+  
   @Test
   public void testSuit() {
     // Onyl for code coverage
@@ -36,6 +33,7 @@ public class SuitTest {
     assertEquals(Suit.SPADES, Suit.SPADES);
   }
   
+  
   @Test
   public void testSuitWithTheBuiltInMethodValues() {
     String result = "";
@@ -43,4 +41,6 @@ public class SuitTest {
       result += suit + "_";
     assertEquals("CLUBS_DIAMONDS_HEARTS_SPADES_", result);
   }
+
+
 }

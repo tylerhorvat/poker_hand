@@ -1,8 +1,6 @@
-/* CSC 335 Summer 2017 Project 1
- * Tyler Horvat
- * 
- * This class implements a poker hand in a poker game.
- * No duplicate cards are allowed in a poker hand
+/* Download from: https://sites.google.com/site/335summer17/quiz-4-debugging
+ * Edited by: Tyler Horvat
+ * CSC 335 Quiz 4
  */
 
 package model;
@@ -12,72 +10,33 @@ import java.util.Collections;
 
 public class PokerHand implements Comparable<PokerHand> {
 
-    private static final int HANDSIZE = 5;
+    static final int HANDSIZE = 5;
 	private ArrayList<Card> cards;
-    private int highPair;  // utilized in one pair, two pair, three of a kind, four of a kind, and full house
-    private boolean aceHigh; // True if ace is high in a straight, false if ace low
-    private HighHand highHand; // Stores Rank of hand
+    private int highPair;
+    private boolean aceHigh; //True if ace is high in a straight, false if ace low
+    private HighHand highHand; //Stores Rank of hand
 
     // Construct one PokerHand
     // Precondition: All five cards are unique
     public PokerHand(Card c1, Card c2, Card c3, Card c4, Card c5) {
     	cards = new ArrayList<Card>();
 
-		cards.add(c1);
-		
-		if(cards.get(0).getValue() == c2.getValue() && cards.get(0).getSuit() == c2.getSuit())
-			throw new DuplicateCardException();
-		
+		cards.add(c1);		
 		cards.add(c2);
-		
-		if(cards.get(0).getValue() == c3.getValue() && cards.get(0).getSuit() == c3.getSuit())
-			throw new DuplicateCardException();
-		if(cards.get(1).getValue() == c3.getValue() && cards.get(1).getSuit() == c3.getSuit())
-			throw new DuplicateCardException();
-		cards.add(c3);
-		
-		if(cards.get(0).getValue() == c4.getValue() && cards.get(0).getSuit() == c4.getSuit())
-			throw new DuplicateCardException();
-		if(cards.get(1).getValue() == c4.getValue() && cards.get(1).getSuit() == c4.getSuit())
-			throw new DuplicateCardException();
-		if(cards.get(2).getValue() == c4.getValue() && cards.get(2).getSuit() == c4.getSuit())
-			throw new DuplicateCardException();
-		
+		cards.add(c3);		
 		cards.add(c4);
-		
-		if(cards.get(0).getValue() == c5.getValue() && cards.get(0).getSuit() == c5.getSuit())
-			throw new DuplicateCardException();
-		if(cards.get(1).getValue() == c5.getValue() && cards.get(1).getSuit() == c5.getSuit())
-			throw new DuplicateCardException();
-		if(cards.get(2).getValue() == c5.getValue() && cards.get(2).getSuit() == c5.getSuit())
-			throw new DuplicateCardException();
-		if(cards.get(3).getValue() == c5.getValue() && cards.get(3).getSuit() == c5.getSuit())
-			throw new DuplicateCardException();
-		
 		cards.add(c5);
 		
 		Collections.sort(cards);
 		this.setHighHand();;
     }
 
-    // returns hand's highHand
     public HighHand getHighHand() {
 		return highHand;
 	}
     
-    // This method compares two poker hands. returns 1, if this hand is the winner
-    // returns -1, if this hand loses, and 0 for a tie
     public int compareTo(PokerHand other){
-    	
-		ArrayList<Card> otherCards = other.getCards();
-		
-		for(int i = 0; i < HANDSIZE; i++) {
-			for(int j = 0; j < HANDSIZE; j++) {
-				if(cards.get(j).getValue() == otherCards.get(i).getValue() && cards.get(j).getSuit() == otherCards.get(i).getSuit())
-					throw new DuplicateCardException();
-			}
-		}
-    	
+    	    	
     	int thisHand = this.getHighHand().getValue();
     	int otherHand = other.getHighHand().getValue();
     	//System.out.println("This hand: " + thisHand + " Other hand: " + otherHand);
@@ -115,9 +74,6 @@ public class PokerHand implements Comparable<PokerHand> {
     	return this.compareHighCard(other);
     }
     
-    // This method compares the high card of this hand with
-    // the other hand. returns 1 if this hand is the winner
-    // returns -1 if this hand loses, and 0 for a tie
     public int compareHighCard(PokerHand other) {
     	int thisCard;
     	int otherCard;
@@ -133,8 +89,6 @@ public class PokerHand implements Comparable<PokerHand> {
     	return 0;
     }
 
-    // this method sets the highHand variable to what the hand
-    // contains
 	private void setHighHand() {
 	
 		this.highHand = HighHand.HIGHCARD;
@@ -174,8 +128,6 @@ public class PokerHand implements Comparable<PokerHand> {
         return cards.get(index).getValue();
     }
     
-    // this method determines if the hand is a royal
-    // flush
     public boolean hasRoyalFlush() {
     	
     	if(this.hasStraighFlush() && this.hasAce() && this.isAceHigh())
@@ -184,9 +136,6 @@ public class PokerHand implements Comparable<PokerHand> {
     	return false;
     }
     
-    // this hand compares two hands that are a straight flush
-    // to determine a winner. both hands must have already
-    // been determined to be a straight flush
     public int compareStraightFlushHands(PokerHand other) {
     	int thisHighCard;
     	int otherHighCard;
@@ -200,8 +149,6 @@ public class PokerHand implements Comparable<PokerHand> {
         }
     	return 0;
     }
-    
-    // determines if the hand is a straight flush
     public boolean hasStraighFlush() {
     	
     	if(this.hasStraight() && this.hasFlush())
@@ -210,18 +157,34 @@ public class PokerHand implements Comparable<PokerHand> {
     	return false;
     }
     
-    // this method compares two hands with a four of a kind
-    // both hands must have already been determined to be a 
-    // four of a kind. 
     public int compareFourOfAKindHands(PokerHand other) {
     	
     	int thisKind = this.getHighPair();
     	int otherKind = other.getHighPair();
     	
-    	return (thisKind - otherKind)/(Math.abs(thisKind - otherKind));	
+    	if(thisKind != otherKind)
+    		return (thisKind - otherKind)/(Math.abs(thisKind - otherKind));
+    	
+    	int thisFifthCard = 0, otherFifthCard = 0;
+    	
+    	for(int i = 4; i >= 0; i--) {
+    		thisFifthCard = this.getValue(i);
+    		if(thisFifthCard != thisKind)
+    			break;
+    	}
+    	
+    	for(int j = 4; j >= 0; j--) {
+    		otherFifthCard = other.getValue(j);
+    		if(otherFifthCard != otherKind)
+    			break;
+    	}
+    	
+    	if(thisFifthCard != otherFifthCard)
+    		return (thisFifthCard - otherFifthCard)/(Math.abs(thisFifthCard - otherFifthCard));	
+    	
+    	return 0;	
     }
     
-    // this method determines if the hand is a four of a kind
     public boolean hasFourOfAKind() {
     	
     	if(this.getValue(0) == this.getValue(3)) {
@@ -235,16 +198,24 @@ public class PokerHand implements Comparable<PokerHand> {
     	return false;
     }
     
-    // this method compares two hands that are a full house
-    // utilizing the compareThreeOfAKindHands method
-    // both hands must have already been determined to 
-    // be a full house
     public int compareFullHouseHands(PokerHand other){
-    	return this.compareThreeOfAKindHands(other);
+    	int thisHighPair = this.getHighPair();
+    	int otherHighPair = other.getHighPair();
+    	
+    	if(thisHighPair != otherHighPair)
+    		return (thisHighPair - otherHighPair)/(Math.abs(thisHighPair - otherHighPair));
+    	
+    	int thisOtherPair = 0, otherOtherPair = 0;
+    	
+    	for (int i = 4; i >= 0; i--) {
+    		thisOtherPair = this.getValue(i);
+    		otherOtherPair = other.getValue(i);
+    		if(thisOtherPair != otherOtherPair)
+    			return (thisOtherPair - otherOtherPair)/(Math.abs(thisOtherPair - otherOtherPair));
+    	}
+    	
+    	return 0;
     }
-    
-    // determines if a hand is a full house utilizing the
-    // hasThreeOfAKind method
     public boolean hasFullHouse() {
 
     	if(this.hasThreeOfAKind()){
@@ -257,9 +228,6 @@ public class PokerHand implements Comparable<PokerHand> {
     	return false;
     }
     
-    // this method compares two hands that are a flush.
-    // both hands must have already been determined to be
-    // a flush
     public int compareFlushHands(PokerHand other) {
     	
     	int thisHighCard;
@@ -275,7 +243,6 @@ public class PokerHand implements Comparable<PokerHand> {
     	return 0;
     }
     
-    // this method determines if a hand is a flush
     public boolean hasFlush(){
     	Suit thisSuit = cards.get(0).getSuit();
     	
@@ -291,9 +258,6 @@ public class PokerHand implements Comparable<PokerHand> {
     	return false;
     }
     
-    // this method compares two hands that are a straight
-    // both hands must have already have been determined
-    // to be a straight
     public int compareStraightHands(PokerHand other) {
     	
     	int thisHighCard;
@@ -346,8 +310,6 @@ public class PokerHand implements Comparable<PokerHand> {
     	return 0;
     }
     
-    // this determine if a hand contains an Ace
-    // and is a helper method for hasStraight
     public boolean hasAce() {
     	
     	if(cards.get(4).getValue() == Rank.ACE.getValue())
@@ -356,7 +318,6 @@ public class PokerHand implements Comparable<PokerHand> {
     	return false;
     }
     
-    // this method determines if a hand is a straight
     public boolean hasStraight() {
     	
     	// hand does not contain ace
@@ -399,7 +360,6 @@ public class PokerHand implements Comparable<PokerHand> {
     	return false;
     }
   
-    // this method determines if a hand is a three of a kind
     public boolean hasThreeOfAKind() {
 	  
 	    for(int i = 0; i < cards.size() - 2; i++){
@@ -413,19 +373,59 @@ public class PokerHand implements Comparable<PokerHand> {
 	    return false;
     }
     
-    // this method compares two hands that are
-    // a three of a kind. both hands must have
-    // been determined to be a three of a kind
-    // (or a full house)
     public int compareThreeOfAKindHands(PokerHand other){
     	
     	int thisPair = this.getHighPair();
 	    int otherPair = other.getHighPair();
-	  
-		return (thisPair - otherPair)/(Math.abs(thisPair - otherPair));
+	    
+	    if(thisPair != otherPair)
+	    	return (thisPair - otherPair)/(Math.abs(thisPair - otherPair));
+	    
+	    int thisHighCard = 0, otherHighCard = 0;
+	    int i =4 , j = 4;
+	    while(i >= 0) {
+	    	thisHighCard = this.getValue(i);
+	    	if(thisHighCard != thisPair){
+	    		i--;
+	    		break;
+	    	}
+	    	i--;
+	    }
+	    
+	    while (j >= 0) {
+	    	otherHighCard = other.getValue(j);
+	    	if(otherHighCard != otherPair){
+	    		j--;
+	    		break;
+	    	}
+	    	j--;
+	    }
+	    
+	    if(thisHighCard != otherHighCard)
+	    	return (thisHighCard - otherHighCard)/(Math.abs(thisHighCard - otherHighCard));
+	    
+	    while(i >= 0) {
+	    	thisHighCard = this.getValue(i);
+	    	if(thisHighCard != thisPair){
+	    		i--;
+	    		break;
+	    	}
+	    }
+	    
+	    while (j >= 0) {
+	    	otherHighCard = other.getValue(j);
+	    	if(otherHighCard != otherPair){
+	    		j--;
+	    		break;
+	    	}
+	    }
+	    
+	    if(thisHighCard != otherHighCard)
+	    	return (thisHighCard - otherHighCard)/(Math.abs(thisHighCard - otherHighCard));
+	      	  
+		return 0;
     }
   
-    // this method determines if a hand has one pair
     public boolean hasPair() {
 	  
 	    for(int i = 0; i < cards.size() - 1; i++){
@@ -438,9 +438,6 @@ public class PokerHand implements Comparable<PokerHand> {
 	    return false;
     }
   
-    // this method compares two hands with one pair
-    // both hands must have been determined to have
-    // one pair
     public int compareOnePairHands(PokerHand other){
 	  
 	    int thisPair = this.getHighPair();
@@ -515,7 +512,6 @@ public class PokerHand implements Comparable<PokerHand> {
 
     // Return true if there are exactly two pairs in this hand
     // Precondition: cards is sorted.
-    // Written by: Rick Mercer, Modified by: Tyler Horvat
     public boolean hasTwoPair()  {
         int numPairs = 0;
         for (int i = 0; i < HANDSIZE - 1; i++) {
@@ -536,7 +532,6 @@ public class PokerHand implements Comparable<PokerHand> {
     }
 
     /** 
-    * Contributed by: Rick Mercer, Edited by: Tyler Horvat 
     * @param other The PokerHand to be compared to this
     * 
     * @return Return 0 if this and other are tied (have two pair and the ranks of the
@@ -582,7 +577,6 @@ public class PokerHand implements Comparable<PokerHand> {
 
     // Return the value of the lower pair in a two pair hand (or the pair in a Pair hand).
     // Precondition: ph is a valid PokerHand that is sorted
-    // Contributed by: Rick Mercer, Modified by: Tyler Horvat
     private int getLowPair(PokerHand ph) {
         for (int i = 0; i < HANDSIZE - 1; i++) {
             if (ph.getValue(i) == ph.getValue(i + 1)) {
@@ -593,7 +587,6 @@ public class PokerHand implements Comparable<PokerHand> {
     }
 
     // Provide a textual version of this PokerHand
-    // Contributed by: Rick Mercer
     public String toString() {
         String result = "";
         result += cards.get(0) + " ";
@@ -604,28 +597,23 @@ public class PokerHand implements Comparable<PokerHand> {
         return result;
     }
 
-    // accesses the value for high pair
     public int getHighPair() {
 	    return highPair;
     }
 
-    // sets the value for high pair
     private void setHighPair(int highPair) {
 	    this.highPair = highPair;
     }
 
-    //returns true if ace is high(used for a straight)
 	public boolean isAceHigh() {
 		return aceHigh;
 	}
 
-	// sets aceHigh to true or false
 	public void setAceHigh(boolean aceHigh) {
 		this.aceHigh = aceHigh;
-	}
-	
-	// returns array of cards in poker hand
+	} 
 	public ArrayList<Card> getCards() {
 		return cards;
 	}
+
 }

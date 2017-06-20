@@ -1,74 +1,13 @@
-/* CSC 335 Summer 2017 Project 1
- * Tyler Horvat
- * 
- * This class runs tests on class Card
- */
-
 package tests;
 
 import static org.junit.Assert.*;
-
 import org.junit.Test;
-
 import model.Card;
 import model.Rank;
 import model.Suit;
 
 public class CardTest {
 
-  //Find higher rank
-  @Test
-  public void testTwoCards() {
-    Card C2 = new Card(Rank.DEUCE, Suit.CLUBS);
-    Card CA = new Card(Rank.ACE, Suit.CLUBS);
-    assertTrue(C2.compareTo(CA) < 0);
-  }
-  
-  //Test same card
-  @Test
-  public void testTwoCards2() {
-	  Card card = new Card(Rank.DEUCE, Suit.CLUBS);
-	  Card same = new Card(Rank.DEUCE, Suit.CLUBS);
-	  assertTrue(card.compareTo(same) == 0);
-  }
-  
-  //Test same Rank
-  @Test
-  public void testTwoCards3() {
-	  Card C2 = new Card(Rank.ACE, Suit.CLUBS);
-	  Card D2 = new Card(Rank.ACE, Suit.DIAMONDS);
-	  assertTrue(C2.compareTo(D2) == 0);
-  }
-  
-  //Test same suit, different Rank
-  @Test
-  public void testTwoCards4() {
-	  Card C3 = new Card(Rank.THREE, Suit.CLUBS);
-	  Card C2 = new Card(Rank.DEUCE, Suit.CLUBS);
-	  assertTrue(C3.compareTo(C2) > 0);
-  }
-  
-  @Test
-  public void testTwoCards5() {
-	  Card H4 = new Card(Rank.FOUR, Suit.HEARTS);
-	  Card S5 = new Card(Rank.FIVE, Suit.SPADES);
-	  assertTrue(H4.compareTo(S5) < 0);
-  }
-  
-  @Test
-  public void testTwoCards6() {
-	  Card S6 = new Card(Rank.SIX, Suit.SPADES);
-	  Card SK = new Card(Rank.KING, Suit.SPADES);
-	  assertTrue(SK.compareTo(S6) > 0);
-  }
-  
-  @Test
-  public void testTwoCards7() {
-	  Card DQ = new Card(Rank.QUEEN, Suit.DIAMONDS);
-	  Card SQ = new Card(Rank.QUEEN, Suit.SPADES);
-	  assertTrue(DQ.compareTo(SQ) == 0);
-  }
-  
   @Test
   public void testGetters() {
     Card c1 = new Card(Rank.DEUCE, Suit.CLUBS);
@@ -145,4 +84,5 @@ public class CardTest {
     assertTrue(c4.toString().contains("J"));
     assertTrue(c5.toString().contains("10"));
   }
+  
 }
